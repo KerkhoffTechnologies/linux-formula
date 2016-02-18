@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml "linux/defaults.yaml" as default_settings %}
+{% set systemd = salt['grains.has_value']('linux')|default(False) -%}
+{# Update settings defaults from pillar data #}
+{% set linux_settings = salt['pillar.get'](
+    'linux',
+    default=default_settings.linux,
+    merge=True)
+%}
